@@ -7,6 +7,13 @@ import java.util.regex.Matcher;
 public class Controlador {
     private ArrayList <Ficha> fichas = new ArrayList <> ();
 
+    private boolean nome_valido (String nome) {
+        if (nome.equals("") || nome.equals (" "))
+            return false;
+
+        return true;
+    }
+
     private boolean email_valido (String email) {
         // testa o formato do e-mail
         String modelo = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
@@ -47,13 +54,18 @@ public class Controlador {
     }
 
     // retorna o usuario com id recebido
-    public Ficha GET (Integer id) { 
-        return fichas.get (id-1);
+    public void GET (Integer id) { 
+        Ficha usuario = fichas.get(id-1);
+        System.out.println ("Nome: "+usuario.getNome());
+        System.out.println ("Sobrenome: "+usuario.getSobrenome());
+        System.out.println ("Data de Nascimento: "+usuario.getNascimento());
+        System.out.println ("E-Mail: "+usuario.getEmail());
+        System.out.println ("Categoria Profissional: "+usuario.getCategoria());
     }
 
     // cria um usuario
     public String POST (String nome, String sobrenome, String email, String categoria, String nascimento) {
-        if (nome.equals("") || sobrenome.equals(""))
+        if (! nome_valido (nome) ||  ! nome_valido (sobrenome))
             return "Nome e/ou Sobrenome Invalido!";
 
         if (! email_valido (email))
@@ -61,7 +73,7 @@ public class Controlador {
 
         
         if (! nascimento_valido (nascimento))
-            return "Data de Nascimento Invalido";
+            return "Data de Nascimento Invalida";
 
         if (! categoria_valida (categoria))
             return "Categoria Profissional Invalida!";
@@ -84,7 +96,7 @@ public class Controlador {
 
             case 2:
                 if (! nascimento_valido (dado))
-                    return "Data de Nascimento Invalido";
+                    return "Data de Nascimento Invalida";
                 fichas.get(id).setNascimento(dado);
                 return "Data de Nascimento Alterada!";
 
@@ -115,7 +127,7 @@ public class Controlador {
         if (campo != 1)
             return "Campo Invalido!";
 
-        if (nome.equals("") || sobrenome.equals(""))
+        if (! nome_valido (nome) ||  ! nome_valido (sobrenome))
             return "Nome e/ou Sobrenome Invalido!";
 
         fichas.get(id).setNome (nome);
@@ -126,7 +138,7 @@ public class Controlador {
 
     // tranforma toda a lista em um json
     public String toJSON () {
-        String json = "[ ";
+        String json = "[ \n";
 
         for (Ficha ficha : fichas) {
             json += "{ ";
@@ -136,11 +148,13 @@ public class Controlador {
             json += "\"E-Mail\": " + "\"" + ficha.getEmail() + "\"" + ",\n";
             json += "\"Categoria Profissional\": " + "\"" + ficha.getCategoria() + "\"" + "\n";
             json += " }";
-            json += ",";
+            json += ",\n";
         } 
 
-        json = json.substring(0, json.length() - 1);
-        json += " ]";
+        // retira o ultimo '\n' e ',' que não pode ter
+        json = json.substring(0, json.length() - 2);
+
+        json += "\n]";
 
         return json;
     }
