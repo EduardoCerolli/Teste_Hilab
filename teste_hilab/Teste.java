@@ -10,16 +10,20 @@ public class Teste  {
         String nome, sobrenome, nascimento, email, categoria;
         String res, dado, json;
         
+        // cria uma variel controlador que usa as funçoes POST, PUT e GET da API
         Controlador controlador = new Controlador ();
+
+        // variaveis para ler do terminal
         Scanner ler_int = new Scanner (System.in);
         Scanner ler_string = new Scanner (System.in);
         
         op = 0;
         while (op != 4) {
-            System.out.print ("Digite 1 para POST, 2 para PUT, 3 para GET, 4 para encerrar e criar o json: ");
+            System.out.print ("Digite 1 para POST, 2 para PUT, 3 para GET, 4 para encerrar o programa e criar o json: ");
             op = ler_int.nextInt ();
             
             switch (op) {
+                // caso POST, cria um usuario novo e retorna seu ID no terminal
                 case 1:
                     System.out.print ("Qual o Nome: ");
                     nome = ler_string.nextLine();
@@ -41,6 +45,7 @@ public class Teste  {
                     break;
             
                 case 2:
+                    // caso PUT, atualiza algum dado do usuario selecionado
                     System.out.print ("Qual o ID do Usuario: ");
                     id = ler_int.nextInt ();
                     System.out.println ("Digite 1 para alterar Nome e Sobrenome, 2 para alterar Data de Nascimento, 3 para alterar E-Mail, 4 para alterar Categoria Profissional:");
@@ -88,14 +93,15 @@ public class Teste  {
                     break;
 
                     case 3:
+                        // caso GET, escreve no terminal todos dados do usuario selecionado
                         System.out.print ("Qual o ID do Usuario: ");
                         id = ler_int.nextInt ();
                         controlador.GET (id);
                         break;
                     
                     case 4:
+                        // cria o arquivo json com a lista de usuarios e encerra o programa
                         json = controlador.toJSON ();
-                        // cria ou sobreescreve o arquivo json
                         try (PrintWriter out = new PrintWriter("usuarios.json")) {
                             out.println(json);
                         } 
