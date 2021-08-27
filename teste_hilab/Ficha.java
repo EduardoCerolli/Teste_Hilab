@@ -4,14 +4,14 @@ public class Ficha {
     private String nome;
     private String sobrenome;
     private String email;
-    private Integer categoria;
+    private String categoria;
     private String nascimento;
 
-    Ficha (String nome, String sobrenome, String email, Integer idCategoria, String nascimento) {
+    Ficha (String nome, String sobrenome, String email, String Categoria, String nascimento) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.email = email;
-        this.categoria = idCategoria;
+        this.categoria = Categoria;
         this.nascimento = nascimento;
     }
 
@@ -27,7 +27,7 @@ public class Ficha {
         return nascimento;
     }
     
-    public Integer getCategoria() {
+    public String getCategoria() {
         return categoria;
     }
         
@@ -47,7 +47,7 @@ public class Ficha {
         this.nascimento = nascimento;
     }
     
-    public void setCategoria(Integer categoria) {
+    public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 
