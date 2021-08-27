@@ -14,8 +14,8 @@ public class Controlador {
         return m.matches ();
     }
 
-    private boolean nascimento_valido (String nascimento) { 
-        String modelo = "[0-3][0-9]\\/[1-2][0-9]\\/[1-2]d{3}";
+    private boolean nascimento_valido (String nascimento) {
+        String modelo = "^(0?[1-9]|[12][0-9]|3[01])[\\/\\-](0?[1-9]|1[012])[\\/\\-]\\d{4}$";
         Pattern p = Pattern.compile (modelo);
         Matcher m = p.matcher (nascimento);
         return m.matches ();
@@ -57,8 +57,8 @@ public class Controlador {
             return "E-mail Invalido!";
 
         
-        // if (! nascimento_valido (nascimento))
-        //     return "Data de Nascimento Invalido";
+        if (! nascimento_valido (nascimento))
+            return "Data de Nascimento Invalido";
 
         Integer idCategoria = categoria_valida (categoria);
         if (idCategoria == 0)
